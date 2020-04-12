@@ -1,22 +1,23 @@
 @echo off
 
 rem путь к каталогу игры
-set RGDIR=f:\lalala\Rebel Galaxy
+set RGDIR=c:\games\steam\steamapps\common\RebelGalaxy
 
 rem путь к рабочему каталогу
-set WORK=z:\TEMP\RG
+set WORK=a:\devel\personal\rebel_galaxy\wdir
 
+set LUAPATH=..\lua\lua
 
-rem -----  дальше не трогать!  ---------
+rem Do not change below
 
-rem путь к каталогу для распаковки
+rem path to the unpacked data
 set UNPACK=%WORK%\unpack
 
-rem путь к каталогу для экспорта
+rem path to the export data
 set EXPORT=%WORK%\export
 
-rem путь к каталогу для импорта
+rem path to the import data
 set IMPORT=%WORK%\import
 
-rem путь к каталогу для перевода
+rem path to the translation data
 set TRANSLATE=%WORK%\translate

@@ -15,10 +15,9 @@ setlocal ENABLEDELAYEDEXPANSION
 for /r "%TRANSLATE%_DAT" %%i in (*.LUA) do (
     set A=%%i
     set B=%%~dpni.DAT
-    lua lua2dat.lua "!A!" "!B:translate=import!"
+    %LUAPATH% lua2dat.lua "!A!" "!B:translate=import!"
 )
 setlocal DISABLEDELAYEDEXPANSION
-
 
 :eof
 pause

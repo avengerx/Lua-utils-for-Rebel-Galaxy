@@ -13,11 +13,11 @@ set PDIR=f:\lalala\Rebel Galaxy\PAKS
 
 "%IM%" -append "%FDIR%\verdana_0.tga" "%FDIR%\trivial_0.tga" "%FDIR%\font_ru.tga"
 
-lua fnt2fontdef.lua "%FDIR%\verdana.fnt" Verdana font_ru.dds > "%IDIR%\MEDIA\FONTS\25_DUAL.FONTDEF"
-lua fnt2fontdef.lua "%FDIR%\trivial.fnt" Trivial font_ru.dds 1024 > "%IDIR%\MEDIA\FONTS\25_TRIVIAL.FONTDEF"
+%LUAPATH% fnt2fontdef.lua "%FDIR%\verdana.fnt" Verdana font_ru.dds > "%IDIR%\MEDIA\FONTS\25_DUAL.FONTDEF"
+%LUAPATH% fnt2fontdef.lua "%FDIR%\trivial.fnt" Trivial font_ru.dds 1024 > "%IDIR%\MEDIA\FONTS\25_TRIVIAL.FONTDEF"
 
 "%NV%" -bc3 "%FDIR%\font_ru.tga"
 
 copy /y "%FDIR%\font_ru.dds" "%IDIR%\MEDIA\FONTS\3_FONT_RU.DDS"
 
-lua pack.lua "%IDIR%" "%PDIR%\DATA_RUS_FONTS.PAK"
+%LUAPATH% pack.lua "%IDIR%" "%PDIR%\DATA_RUS_FONTS.PAK"

@@ -10,7 +10,7 @@ cls
 
 findstr /d:"%EXPORT%_DAT" /s /n /c:" v=%1 " *.LUA > %TMPFILE%
 
-lua tmp_format_finded_id.lua %TMPFILE%
+%LUAPATH% tmp_format_finded_id.lua %TMPFILE%
 
 del /q /f %TMPFILE%
 

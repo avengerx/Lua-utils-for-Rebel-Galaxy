@@ -21,7 +21,7 @@ setlocal ENABLEDELAYEDEXPANSION
 for /r "%UNPACK%_DAT" %%i in (*.DAT) do (
     set A=%%i
     set B=%%~dpni.LUA
-    lua dat2lua.lua "!A!" "!B:unpack=export!" 2>>"%WORK%\dat2lua.err"
+    %LUAPATH% dat2lua.lua "!A!" "!B:unpack=export!" 2>>"%WORK%\dat2lua.err"
 )
 
 goto skip
@@ -30,13 +30,13 @@ echo from ANIMATION...
 for /r "%UNPACK%_ANIMATION" %%i in (*.ANIMATION) do (
     set A=%%i
     set B=%%~dpni.LUA
-    lua dat2lua.lua "!A!" "!B:unpack=export!" 2>>"%WORK%\dat2lua.err"
+    %LUAPATH% dat2lua.lua "!A!" "!B:unpack=export!" 2>>"%WORK%\dat2lua.err"
 )
 echo from IMAGESET...
 for /r "%UNPACK%_IMAGESET" %%i in (*.IMAGESET) do (
     set A=%%i
     set B=%%~dpni.LUA
-    lua dat2lua.lua "!A!" "!B:unpack=export!" 2>>"%WORK%\dat2lua.err"
+    %LUAPATH% dat2lua.lua "!A!" "!B:unpack=export!" 2>>"%WORK%\dat2lua.err"
 )
 
 :skip
@@ -44,9 +44,8 @@ for /r "%UNPACK%_IMAGESET" %%i in (*.IMAGESET) do (
 setlocal DISABLEDELAYEDEXPANSION
 
 echo parse errlog...
-lua remove_duplicates.lua "%WORK%\dat2lua.err" > "%WORK%\list_missing_ids.txt"
+%LUAPATH% remove_duplicates.lua "%WORK%\dat2lua.err" > "%WORK%\list_missing_ids.txt"
 del /q "%WORK%\dat2lua.err"
-
 
 :eof
 pause

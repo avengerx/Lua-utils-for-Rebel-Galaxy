@@ -9,8 +9,8 @@ if not exist "%WORK%\t_list_duplicated_ids.lua" goto eof
 set TMPFILE=%WORK%\%RANDOM%
 
 for /r "%TRANSLATE%_DAT" %%i in (*.LUA) do (
-    lua lua2dat.lua "%%i" "%TMPFILE%" "%WORK%\t_list_duplicated_ids.lua"
-    lua dat2lua.lua "%TMPFILE%" "%%i"
+    %LUAPATH% lua2dat.lua "%%i" "%TMPFILE%" "%WORK%\t_list_duplicated_ids.lua"
+    %LUAPATH% dat2lua.lua "%TMPFILE%" "%%i"
 )
 del /q "%TMPFILE%"
 
