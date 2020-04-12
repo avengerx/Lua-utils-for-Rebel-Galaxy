@@ -1,95 +1,114 @@
 # Lua-utils-for-Rebel-Galaxy
 
-## требования
+## Requirements
 * Lua 5.3 (http://www.lua.org/download.html)
 * lua-zlib (https://github.com/brimworks/lua-zlib)
 * lua-lfs (https://github.com/keplerproject/luafilesystem)
 
-для Win x64 имеется готовый комплект, [lua_5.3.4_zlib_lfs_x64.zip](https://mega.nz/#!e4xmWCQZ!NmDjowuExvA7NAV6ZO1CIXeFTzAisQiHUzvyhuFuHuM).
+Here is a prebuilt binary kit for Win x64, [lua_5.3.4_zlib_lfs_x64.zip] (https://mega.nz/#!e4xmWCQZ!NmDjowuExvA7NAV6ZO1CIXeFTzAisQiHUzvyhuFuHuM).
 
-## использование
+## Usage
 
-### работа с .DAT архивами
+### Works with .DAT archives
 
-#### распаковка
-````
-lua unpack.lua <INPUT.PAK> [OUTPUT/dir [FILTER]]
-````
-*прим* выходной каталог должен существовать. без указания происходит вывод содержания архива без распаковки. при указании FILTER распаковываются только ресурсы заданного типа:
+#### Unpacking
+```
+lua unpack.lua <INPUT.PAK> [OUTPUT / dir [FILTER]]
+```
 
-````
-1  - MESH/MDL    2 - SKELETON    3 - DDS         4 - PNG/TGA/BMP
-6  - OGG/WAV     9 - MATERIAL   10 - RAW        12 - IMAGESET
-13 - TTF        15 - DAT        16 - LAYOUT     17 - ANIMATION
-24 - PROGRAM    25 - FONTDEF    26 - COMPOSITOR 27 - FRAG/FX/HLSL/VERT
-29 - PU         30 - ANNO       31 - SBIN       32 - WDAT
-````
+**Note:** output directory must exist. without it, the contents of the archive are output without unpacking (?? may have been lost in translation). If a FILTER is specified, only the selected resources of are unpacked:
 
-к именам всех файлов добавляется цифровой префикс вида *XX_имяфайла*, где *XX* — внутригровой тип ресурса. это требуется для скрипта упаковки, чтобы не хранить тип в отдельном файле.
+Filter | Contents
+1 | MESH / MDL
+2 | SKELETON
+3 | DDS
+4 | PNG / TGA / BMP
+6 | OGG / WAV
+9 | MATERIAL
+10 | RAW
+12 | IMAGESET
+13 | TTF
+15 | DAT
+16 | LAYOUT
+17 | ANIMATION
+24 | PROGRAM
+25 | FONTDEF
+26 | COMPOSITOR
+27 | FRAG / FX / HLSL / VERT
+29 | PU
+30 | ANNO
+31 | SBIN
+32 | WDAT
 
-#### упаковка
-````
-lua pack.lua <INPUT/dir> [OUTPUT.PAK]
-````
-*прим* имя создаваемого архива по умолчанию — *DATA2.PAK* в текущем каталоге. на первом уровне входного каталога должен находится только каталог *MEDIA*.
+A numeric prefix of the form `XX_file_name` is added to the names of all files, where `XX` is the in-game resource type. This is required for the packaging script so as not to store the type in a separate file (?? lost in translation).
 
-### ресурсы
+#### Packing
+```
+lua pack.lua <INPUT / dir> [OUTPUT.PAK]
+```
 
-#### конвертер DAT -> Lua -> DAT
-````
+**Note:** the default used archive name is `DATA2.PAK`, output in the current directory. The first level of the input directory should contain only the `MEDIA` directory.
+
+### Resources
+
+#### Lua Scripts converter from/to DAT format
+
+```
 lua dat2lua.lua <INPUT.DAT> [OUTPUT.lua]
 lua lua2dat.lua <INPUT.lua> [OUTPUT.DAT]
-````
-*прим* без указания второго параметра *dat2lua* направляет вывод в консоль, *lua2dat* — в *OUT.DAT* в текущем каталоге.
+```
 
-конвертация происходит в валидный Lua-скрипт, который и используется для обратного преобразования. в начале файла находится строковый словарь, остальные строковые значения берутся из хеш–таблиц *dict_(types|ext).lua*. в случае отсутствия в словаре хеш записывается как *_XXXXXX*, где *XXXXXX* — его числовое значение.
+**Note:** without specifying the second parameter, *dat2lua* directs the output to the console; *lua2dat* though, sends to the *OUT.DAT* file in current directory.
 
-аналогично можно конвертировать файлы с типами 12 (IMAGESET) и 17 (ANIMATION).
+The conversion results into a valid Lua script, which can be used for the reverse conversion (lua to DAT). At the beginning of the file is a string dictionary, the rest of the string values ​​are taken from the hash tables `dict_ (types | ext) .lua`. If there is no dictionary, the hash is written as `_XXXXXX`, where `XXXXXX` is its numerical value.
 
-#### конвертер DAT -> TXT|XML
-````
+Similarly images and animation files can be converted from/to DAT with these tools (types 12 (IMAGESET) and 17 (ANIMATION)).
+
+#### TXT and XML converter from/to DAT format
+
+```
 lua dat2txt.lua <INPUT.DAT> [DEBUG] [> OUTPUT.txt]
 lua dat2xml.lua <INPUT.DAT> [> OUTPUT.xml]
-````
+```
 
-### проверка хешей
-````
+### Hash verification
+```
 lua hasher.lua <STRING1> [STRING2 [STRING3 [...]]
-````
-подсчет хеша для строки (строк) STRINGx и его вывод (десятичное значение, строка, шестнадцатеричное значение):
-````
->lua hasher.lua STRING1 1STRING
+```
+
+Hash calculation for `STRINGx` string(s) and its output (decimal value, string, hexadecimal value):
+```
+> lua hasher.lua STRING1 1STRING
 1829089533, "STRING1", --0x6D05B0FD
 3815255475, "1STRING", --0xE3682DB3
-````
+```
 
-### подбор хеша
-````
+### Hash selection
+```
 lua hash_brut.lua <HASH> [STRING] [DEPTH]
 
-    HASH   : требуемый хеш
-    STRING : неизменяемые начальные символы или пустая строка ("")
-    NUMBER : глубина (т. е. количество перебираемых символов)
-````
-словарь по умолчанию — цифры, латинские буквы в верхнем регистре и символ подчеркивания (````0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_````).
+    HASH: required hash
+    STRING: immutable leading characters or empty string ("")
+    NUMBER: depth (i.e. the number of characters to be searched)
+```
+The default dictionary is uppercase alphanumeric, and underscore (`0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_`).
 
-#### примеры
-поиск хеша в строке длиной шесть символов начинающейся с ````CHA````:
-````
->lua hash_brut.lua 44150820 CHA 3
+#### Examples
+Search for a hash in a string, six characters long, starting with `CHA`:
+```
+> lua hash_brut.lua 44150820 CHA 3
 44150820 CHANCE
 keys found: 1
-````
-
-полный перебор всех четырехсимвольных комбинаций:
-````
->lua hash_brut.lua 7057780 "" 4
+```
+full enumeration of all four-character combinations:
+```
+> lua hash_brut.lua 7057780 "" 4
 7057780 UNJ4
 7057780 UNIT
 keys founded: 2
-````
-тут случилась коллизия, так как использованный алгоритм хеширования достаточно неустойчивый.
+```
+A collision occurred here, since the hash algorithm used is rather unstable.
 
-## примечания
+## Additional notes
 
-````conflict_ids.lua```` — список идентификаторов, которые используются как в STRING, так и в TRANSLATE типах. поэтому эти строки нельзя переводить (конвертировать в Unicode). некоторые такие строки даже использованы в именах переменных в скриптах...
+`conflict_ids.lua` is a list of identifiers that are used in both STRING and TRANSLATE types. Therefore, these lines cannot be translated (converted to Unicode). Some of these identifiers are even used as variable names in scripts.
