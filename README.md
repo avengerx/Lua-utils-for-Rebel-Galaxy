@@ -18,27 +18,28 @@ lua unpack.lua <INPUT.PAK> [OUTPUT / dir [FILTER]]
 
 **Note:** output directory must exist. without it, the contents of the archive are output without unpacking (?? may have been lost in translation). If a FILTER is specified, only the selected resources of are unpacked:
 
-Filter | Contents
-1 | MESH / MDL
-2 | SKELETON
-3 | DDS
-4 | PNG / TGA / BMP
-6 | OGG / WAV
-9 | MATERIAL
-10 | RAW
-12 | IMAGESET
-13 | TTF
-15 | DAT
-16 | LAYOUT
-17 | ANIMATION
-24 | PROGRAM
-25 | FONTDEF
-26 | COMPOSITOR
-27 | FRAG / FX / HLSL / VERT
-29 | PU
-30 | ANNO
-31 | SBIN
-32 | WDAT
+| Filter | Contents |
+| ------ | -------- |
+| 1 | MESH / MDL |
+| 2 | SKELETON |
+| 3 | DDS |
+| 4 | PNG / TGA / BMP | 
+| 6 | OGG / WAV |
+| 9 | MATERIAL |
+| 10 | RAW |
+| 12 | IMAGESET |
+| 13 | TTF |
+| 15 | DAT |
+| 16 | LAYOUT |
+| 17 | ANIMATION |
+| 24 | PROGRAM |
+| 25 | FONTDEF |
+| 26 | COMPOSITOR |
+| 27 | FRAG / FX / HLSL / VERT |
+| 29 | PU |
+| 30 | ANNO | 
+| 31 | SBIN |
+| 32 | WDAT |
 
 A numeric prefix of the form `XX_file_name` is added to the names of all files, where `XX` is the in-game resource type. This is required for the packaging script so as not to store the type in a separate file (?? lost in translation).
 
